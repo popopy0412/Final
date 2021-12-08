@@ -1,5 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class TabbedPanePanel extends JPanel {
 
@@ -28,6 +30,12 @@ public class TabbedPanePanel extends JPanel {
         tp.addTab("검색", stp);
 
         btn = new JButton("추가");
+        btn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                MainFrame.getDialog().setVisible(true);
+            }
+        });
         p = new JPanel();
         p.add(btn);
 

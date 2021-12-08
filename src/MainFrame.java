@@ -4,14 +4,17 @@ import javax.swing.*;
 public class MainFrame extends JFrame{
 
     private JLabel label; // My Notes
-
+    private static InputDialog dialog; // 입력 다이얼로그
     public MainFrame(String title){
         super(title); // 제목 설정
-        setSize(1000, 1000); // 크기 설정
+        setSize(1000, 700); // 크기 설정
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // 종료 조건 설정
 
         Container c = getContentPane(); // ContentPane 가져옴
         c.setLayout(new BorderLayout()); // 배치 관리자 설정
+
+        dialog = new InputDialog(this, "입력");
+        dialog.setVisible(false);
 
         label = new JLabel("My Notes");
         label.setFont(new Font("Arial", Font.ITALIC | Font.BOLD, 30));
@@ -30,6 +33,10 @@ public class MainFrame extends JFrame{
         c.add(new DetailPanel(), BorderLayout.CENTER);
 
         setVisible(true); // 보이게 설정
+    }
+
+    public static InputDialog getDialog() {
+        return dialog;
     }
 
     public static void main(String[] args){
