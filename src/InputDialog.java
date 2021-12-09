@@ -42,12 +42,20 @@ public class InputDialog extends JDialog {
             @Override
             public void actionPerformed(ActionEvent e) {
                 setVisible(false);
-                moviePanel = new MoviePanel();
-                bookPanel = new BookPanel();
-                moviePanel.add(btnPanel, BorderLayout.SOUTH);
-                centerPanel.revalidate();
-                mbtn.setSelected(true);
-                card.show(centerPanel, "movie");
+
+                if(mbtn.isSelected()){
+                    Movie movie = moviePanel.getInformation();
+                    ItemCollections.addItem(movie);
+                    Main.frame.getTppanel().renewMovies();
+                }
+                else{
+                    Book book = bookPanel.getInformation();
+                    ItemCollections.addItem(book);
+                    Main.frame.getTppanel().renewBooks();
+                }
+                Main.frame.getTppanel().renewTotal();
+                Main.frame.getTppanel().revalidate();
+                Main.frame.renewDialog();
             }
         });
 

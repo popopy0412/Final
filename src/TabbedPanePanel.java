@@ -1,4 +1,6 @@
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -20,9 +22,18 @@ public class TabbedPanePanel extends JPanel {
 
         stp = new SearchTabPanel();
 
-        total = new JList(ItemCollections.getItems());
-        movies = new JList(ItemCollections.getMovies());
-        books = new JList(ItemCollections.getBooks());
+        total = new JList(); movies = new JList(); books = new JList();
+        total.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        movies.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        books.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        new JScrollPane(total); new JScrollPane(movies); new JScrollPane(books);
+
+        total.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+             //   if()
+            }
+        });
 
         tp.addTab("전체", total);
         tp.addTab("영화", movies);
@@ -33,7 +44,7 @@ public class TabbedPanePanel extends JPanel {
         btn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                MainFrame.getDialog().setVisible(true);
+                Main.frame.getDialog().setVisible(true);
             }
         });
         p = new JPanel();
@@ -41,5 +52,16 @@ public class TabbedPanePanel extends JPanel {
 
         add(tp, BorderLayout.CENTER);
         add(p, BorderLayout.SOUTH);
+    }
+    public void renewTotal() {
+        total.setListData(ItemCollections.getItems());
+    }
+
+    public void renewMovies() {
+        movies.setListData(ItemCollections.getMovies());
+    }
+
+    public void renewBooks() {
+        books.setListData(ItemCollections.getBooks());
     }
 }

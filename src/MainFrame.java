@@ -4,7 +4,9 @@ import javax.swing.*;
 public class MainFrame extends JFrame{
 
     private JLabel label; // My Notes
-    private static InputDialog dialog; // 입력 다이얼로그
+    private InputDialog dialog; // 입력 다이얼로그
+    private TabbedPanePanel tppanel; // TabbedPane 패널
+    private DetailPanel dpanel; // 세부정보 패널
     public MainFrame(String title){
         super(title); // 제목 설정
         setSize(1000, 700); // 크기 설정
@@ -12,6 +14,9 @@ public class MainFrame extends JFrame{
 
         Container c = getContentPane(); // ContentPane 가져옴
         c.setLayout(new BorderLayout()); // 배치 관리자 설정
+
+        tppanel = new TabbedPanePanel();
+        dpanel = new DetailPanel();
 
         dialog = new InputDialog(this, "입력");
         dialog.setVisible(false);
@@ -29,17 +34,17 @@ public class MainFrame extends JFrame{
         northPanel.add(timeLabel);
 
         c.add(northPanel, BorderLayout.NORTH);
-        c.add(new TabbedPanePanel(), BorderLayout.WEST);
-        c.add(new DetailPanel(), BorderLayout.CENTER);
+        c.add(tppanel, BorderLayout.WEST);
+        c.add(dpanel, BorderLayout.CENTER);
 
         setVisible(true); // 보이게 설정
     }
 
-    public static InputDialog getDialog() {
+    public InputDialog getDialog() {
         return dialog;
     }
+    public TabbedPanePanel getTppanel() { return tppanel; }
+    public DetailPanel getDpanel() { return dpanel; }
 
-    public static void main(String[] args){
-        new MainFrame("JAVA 3분반 1714112 천소현"); // 프레임 생성
-    }
+    public void renewDialog() { dialog = new InputDialog(this, "입력"); }
 }

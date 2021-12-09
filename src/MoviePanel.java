@@ -1,12 +1,15 @@
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class MoviePanel extends JPanel {
     private JPanel panel, imagePanel, westPanel, centerPanel;
     private JLabel[] labels;
-    private JTextField[] tf;
+    private JTextArea[] ta;
     private JComboBox genrecb, ratedcb, yearcb;
-    private JTextArea ta;
+    private JTextField tf;
     private JButton btn;
     private JSlider slider;
     private String[] str = {"제목", "감독", "배우", "장르", "등급", "개봉년도", "포스터", "별점", "줄거리", "감상평"};
@@ -18,22 +21,38 @@ public class MoviePanel extends JPanel {
 
         panel = new JPanel(new BorderLayout());
         imagePanel = new JPanel(new BorderLayout());
-        westPanel = new JPanel(new GridLayout(10, 1));
-        centerPanel = new JPanel(new GridLayout(10, 1));
+        westPanel = new JPanel(new GridLayout(10, 1, 20, 20));
+        centerPanel = new JPanel(new GridLayout(10, 1, 20, 20));
 
-        ta = new JTextArea();
+        tf = new JTextField();
+        tf.setEditable(false);
         btn = new JButton("불러오기");
-        imagePanel.add(ta, BorderLayout.CENTER); imagePanel.add(btn, BorderLayout.EAST);
+        imagePanel.add(tf, BorderLayout.CENTER); imagePanel.add(btn, BorderLayout.EAST);
+
+        btn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFileChooser ch = new JFileChooser();
+                FileNameExtensionFilter filter = new FileNameExtensionFilter("JPG, JPEG, PNG", "jpg", "png", "jpeg");
+                ch.setFileFilter(filter);
+
+                int ret = ch.showOpenDialog(null);
+                if(ret == JFileChooser.APPROVE_OPTION){
+                    tf.setText(ch.getSelectedFile().getPath());
+                }
+            }
+        });
 
         labels = new JLabel[10];
-        tf = new JTextField[5];
+        ta = new JTextArea[5];
         for(int i=0;i<10;i++){
             labels[i] = new JLabel(str[i]);
             westPanel.add(labels[i]);
         }
         for(int i=0;i<5;i++){
-            tf[i] = new JTextField(20);
-            new JScrollPane(tf[i]);
+            ta[i] = new JTextArea();
+            new JScrollPane(ta[i]);
+            ta[i].setLineWrap(true);
         }
 
         slider = new JSlider(JSlider.HORIZONTAL, 0, 10, 0);
@@ -48,13 +67,27 @@ public class MoviePanel extends JPanel {
         for(String s : rated) ratedcb.addItem(s);
         for(int i=1900;i<=2021;i++) yearcb.addItem(i);
 
-        for(int i=0;i<3;i++) centerPanel.add(tf[i]);
+        for(int i=0;i<3;i++) centerPanel.add(new JScrollPane(ta[i]));
         centerPanel.add(genrecb); centerPanel.add(ratedcb); centerPanel.add(yearcb);
         centerPanel.add(imagePanel);
         centerPanel.add(slider);
-        for(int i=3;i<5;i++) centerPanel.add(tf[i]);
+        for(int i=3;i<5;i++) centerPanel.add(new JScrollPane(ta[i]));
 
         panel.add(westPanel, BorderLayout.WEST); panel.add(centerPanel, BorderLayout.CENTER);
         add(panel, BorderLayout.CENTER);
+    }
+
+    public Movie getInformation(){
+        String title = ta[0].getText(); // 제목
+        String producer = ta[1].getText(); // 제작자(감독, 저자)
+        String summary = ta[3].getText(); // 줄거리, 내용
+        String review = ta[4].getText(); // 감상평
+        ImageIcon poster = new ImageIcon(tf.getText()); // 이미지 아이콘
+        int point = slider.getValue(); // 별점
+        int year = (int)yearcb.getSelectedItem(); // 제작 년도
+        String actors = ta[2].getText(); // 배우
+        String genre = (String)genrecb.getSelectedItem(); // 장르
+        String rated = (String)ratedcb.getSelectedItem(); // 등급
+        return new Movie(title, producer, summary, review, poster, point, year, actors, genre, rated);
     }
 }
