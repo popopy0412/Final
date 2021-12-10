@@ -1,5 +1,7 @@
 import java.awt.*;
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 public class MainFrame extends JFrame{
 
@@ -18,6 +20,100 @@ public class MainFrame extends JFrame{
         tppanel = new TabbedPanePanel();
         dpanel = new DetailPanel();
 
+        tppanel.getTotal().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                dpanel = new DetailPanel();
+                if(tppanel.getTotal().getSelectedValue() instanceof Movie){
+                    Movie movie = (Movie)tppanel.getTotal().getSelectedValue();
+                    dpanel.getIpanel().getImagePanel().setPoster(movie.getPoster());
+
+                    JLabel[] llabels = new JLabel[7];
+                    JLabel[] dlabels = new JLabel[7];
+                    String[] lstr = {"제목", "감독", "배우", "장르", "등급", "개봉년도", "별점"};
+                    String[] dstr = {movie.getTitle(), movie.getProducer(), movie.getActors(), movie.getGenre(), movie.getRated(), movie.getYear()+"년도", movie.getPoint()+"점"};
+
+                    dpanel.getIpanel().getDscrpPanel().setLayout(new GridLayout(7, 1));
+                    dpanel.getIpanel().getLabelPanel().setLayout(new GridLayout(7, 1));
+
+                    for(String s : lstr) dpanel.getIpanel().getLabelPanel().add(new JLabel(s));
+                    for(String s : dstr) dpanel.getIpanel().getDscrpPanel().add(new JLabel(s));
+
+/*                    dpanel.getIpanel().getCenterPanel().add(dpanel.getIpanel().getLabelPanel(), BorderLayout.WEST);
+                    dpanel.getIpanel().getCenterPanel().add(dpanel.getIpanel().getDscrpPanel(), BorderLayout.CENTER);*/
+                }
+                else {
+                    Book book = (Book)tppanel.getTotal().getSelectedValue();
+                    dpanel.getIpanel().getImagePanel().setPoster(book.getPoster());
+
+                    JLabel[] llabels = new JLabel[5];
+                    JLabel[] dlabels = new JLabel[5];
+                    String[] lstr = {"제목", "저자", "출판사", "출판년도", "별점"};
+                    String[] dstr = {book.getTitle(), book.getProducer(), book.getPublisher(), book.getYear()+"년도", book.getPoint()+"점"};
+
+                    dpanel.getIpanel().getDscrpPanel().setLayout(new GridLayout(5, 1));
+                    dpanel.getIpanel().getLabelPanel().setLayout(new GridLayout(5, 1));
+
+                    for(String s : lstr) dpanel.getIpanel().getLabelPanel().add(new JLabel(s));
+                    for(String s : dstr) dpanel.getIpanel().getDscrpPanel().add(new JLabel(s));
+
+/*                    dpanel.getIpanel().getCenterPanel().add(dpanel.getIpanel().getLabelPanel(), BorderLayout.WEST);
+                    dpanel.getIpanel().getCenterPanel().add(dpanel.getIpanel().getDscrpPanel(), BorderLayout.CENTER);*/
+                }
+                dpanel.getsPanel().setTa(((Item) tppanel.getTotal().getSelectedValue()).getSummary());
+                dpanel.getrPanel().setTa(((Item) tppanel.getTotal().getSelectedValue()).getReview());
+                dpanel.revalidate();
+                add(dpanel, BorderLayout.CENTER);
+            }
+        });
+        tppanel.getMovies().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                dpanel = new DetailPanel();
+                Movie movie = (Movie)tppanel.getTotal().getSelectedValue();
+                dpanel.getIpanel().getImagePanel().setPoster(movie.getPoster());
+
+                JLabel[] llabels = new JLabel[7];
+                JLabel[] dlabels = new JLabel[7];
+                String[] lstr = {"제목", "감독", "배우", "장르", "등급", "개봉년도", "별점"};
+                String[] dstr = {movie.getTitle(), movie.getProducer(), movie.getActors(), movie.getGenre(), movie.getRated(), movie.getYear()+"년도", movie.getPoint()+"점"};
+
+                dpanel.getIpanel().getDscrpPanel().setLayout(new GridLayout(7, 1));
+                dpanel.getIpanel().getLabelPanel().setLayout(new GridLayout(7, 1));
+
+                for(String s : lstr) dpanel.getIpanel().getLabelPanel().add(new JLabel(s));
+                for(String s : dstr) dpanel.getIpanel().getDscrpPanel().add(new JLabel(s));
+
+                dpanel.getsPanel().setTa(((Item) tppanel.getTotal().getSelectedValue()).getSummary());
+                dpanel.getrPanel().setTa(((Item) tppanel.getTotal().getSelectedValue()).getReview());
+                dpanel.revalidate();
+                add(dpanel, BorderLayout.CENTER);
+            }
+        });
+        tppanel.getBooks().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                dpanel = new DetailPanel();
+                Book book = (Book)tppanel.getTotal().getSelectedValue();
+                dpanel.getIpanel().getImagePanel().setPoster(book.getPoster());
+
+                JLabel[] llabels = new JLabel[5];
+                JLabel[] dlabels = new JLabel[5];
+                String[] lstr = {"제목", "저자", "출판사", "출판년도", "별점"};
+                String[] dstr = {book.getTitle(), book.getProducer(), book.getPublisher(), book.getYear()+"년도", book.getPoint()+"점"};
+
+                dpanel.getIpanel().getDscrpPanel().setLayout(new GridLayout(5, 1));
+                dpanel.getIpanel().getLabelPanel().setLayout(new GridLayout(5, 1));
+
+                for(String s : lstr) dpanel.getIpanel().getLabelPanel().add(new JLabel(s));
+                for(String s : dstr) dpanel.getIpanel().getDscrpPanel().add(new JLabel(s));
+
+                dpanel.getsPanel().setTa(((Item) tppanel.getTotal().getSelectedValue()).getSummary());
+                dpanel.getrPanel().setTa(((Item) tppanel.getTotal().getSelectedValue()).getReview());
+                dpanel.revalidate();
+                add(dpanel, BorderLayout.CENTER);
+            }
+        });
         dialog = new InputDialog(this, "입력");
         dialog.setVisible(false);
 

@@ -30,4 +30,15 @@ public class DetailPanel extends JPanel{
         add(panel, BorderLayout.CENTER);
         add(btnPanel, BorderLayout.SOUTH);
     }
+    public InformationPanel getIpanel() {
+        return ipanel;
+    }
+    public TextPanel getsPanel() {
+        return sPanel;
+    }
+    public TextPanel getrPanel() {
+        return rPanel;
+    }
+
+
 }

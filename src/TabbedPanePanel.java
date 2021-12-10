@@ -28,13 +28,6 @@ public class TabbedPanePanel extends JPanel {
         books.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         new JScrollPane(total); new JScrollPane(movies); new JScrollPane(books);
 
-        total.addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-             //   if()
-            }
-        });
-
         tp.addTab("전체", total);
         tp.addTab("영화", movies);
         tp.addTab("도서", books);
@@ -63,5 +56,17 @@ public class TabbedPanePanel extends JPanel {
 
     public void renewBooks() {
         books.setListData(ItemCollections.getBooks());
+    }
+
+    public JList getTotal() {
+        return total;
+    }
+
+    public JList getMovies() {
+        return movies;
+    }
+
+    public JList getBooks() {
+        return books;
     }
 }
