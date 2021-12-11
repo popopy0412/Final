@@ -90,4 +90,12 @@ public class MoviePanel extends JPanel {
         String rated = (String)ratedcb.getSelectedItem(); // 등급
         return new Movie(title, producer, summary, review, poster, point, year, actors, genre, rated);
     }
+
+    public void setInformation(Movie movie){
+        ta[0].setText(movie.getTitle());
+        ta[1].setText(movie.getProducer());
+        ta[3].setText(movie.getSummary());
+        ta[4].setText(movie.getReview());
+        //파일 경로 Item에 따로 저장하기
+    }
 }

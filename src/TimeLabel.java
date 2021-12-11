@@ -23,7 +23,7 @@ class TimeLabel extends JLabel implements Runnable {
 
         String clockText = Integer.toString(year);
         clockText = clockText.concat("년 ");
-        clockText = clockText.concat(Integer.toString(month));
+        clockText = clockText.concat(Integer.toString(month+1));
         clockText = clockText.concat("월 ");
         clockText = clockText.concat(Integer.toString(date));
         clockText = clockText.concat("일 ");

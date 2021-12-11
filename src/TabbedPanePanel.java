@@ -37,7 +37,7 @@ public class TabbedPanePanel extends JPanel {
         btn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Main.frame.getDialog().setVisible(true);
+                Main.getFrame().getDialog().setVisible(true);
             }
         });
         p = new JPanel();
@@ -46,9 +46,7 @@ public class TabbedPanePanel extends JPanel {
         add(tp, BorderLayout.CENTER);
         add(p, BorderLayout.SOUTH);
     }
-    public void renewTotal() {
-        total.setListData(ItemCollections.getItems());
-    }
+    public void renewTotal() { total.setListData(ItemCollections.getItems()); }
 
     public void renewMovies() {
         movies.setListData(ItemCollections.getMovies());
@@ -57,6 +55,10 @@ public class TabbedPanePanel extends JPanel {
     public void renewBooks() {
         books.setListData(ItemCollections.getBooks());
     }
+
+    public JTabbedPane getTp() { return tp; }
+
+    public SearchTabPanel getStp() { return stp; }
 
     public JList getTotal() {
         return total;

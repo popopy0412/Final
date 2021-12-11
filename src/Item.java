@@ -1,6 +1,7 @@
 import javax.swing.*;
+import java.io.Serializable;
 
-public class Item {
+public class Item implements Serializable {
     protected String title; // 제목
     protected String producer; // 제작자(감독, 저자)
     protected String summary; // 줄거리, 내용

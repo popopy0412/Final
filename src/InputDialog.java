@@ -46,16 +46,16 @@ public class InputDialog extends JDialog {
                 if(mbtn.isSelected()){
                     Movie movie = moviePanel.getInformation();
                     ItemCollections.addItem(movie);
-                    Main.frame.getTppanel().renewMovies();
+                    Main.getFrame().getTppanel().renewMovies();
                 }
                 else{
                     Book book = bookPanel.getInformation();
                     ItemCollections.addItem(book);
-                    Main.frame.getTppanel().renewBooks();
+                    Main.getFrame().getTppanel().renewBooks();
                 }
-                Main.frame.getTppanel().renewTotal();
-                Main.frame.getTppanel().revalidate();
-                Main.frame.renewDialog();
+                Main.getFrame().getTppanel().renewTotal();
+                Main.getFrame().getTppanel().revalidate();
+                Main.getFrame().renewDialog();
             }
         });
 
@@ -83,5 +83,13 @@ public class InputDialog extends JDialog {
 
         add(northPanel, BorderLayout.NORTH);
         add(centerPanel, BorderLayout.CENTER);
+    }
+
+    public MoviePanel getMoviePanel() {
+        return moviePanel;
+    }
+
+    public BookPanel getBookPanel() {
+        return bookPanel;
     }
 }

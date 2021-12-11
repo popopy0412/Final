@@ -27,20 +27,20 @@ public class SearchTabPanel extends JPanel{
             public void actionPerformed(ActionEvent e) {
                 Vector<Item> v = new Vector<>();
                 String str = tf.getText();
-                for(Item i : ItemCollections.getItems()){
-                    if(cb.getSelectedIndex() == 0){
-                        if(i.getTitle().contains(str)) v.add(i);
-                    }
-                    else{
-                        try{
-                            if(i.getPoint() == Integer.parseInt(str)) v.add(i);
-                        }
-                        catch(Exception exception){
-                            exception.printStackTrace();
+                try {
+                    for (Item i : ItemCollections.getItems()) {
+                        if (cb.getSelectedIndex() == 0) {
+                            if (i.getTitle().contains(str)) v.add(i);
+                        } else {
+                            if (i.getPoint() >= Integer.parseInt(str)) v.add(i);
+
                         }
                     }
+                    list.setListData(v);
                 }
-                list = new JList(v);
+                catch(Exception exception){
+                    JOptionPane.showMessageDialog(null, "0 ~ 10 사이의 숫자만 입력해주세요", "입력값 오류", JOptionPane.INFORMATION_MESSAGE);
+                }
             }
         });
 
@@ -49,5 +49,9 @@ public class SearchTabPanel extends JPanel{
 
         add(panel, BorderLayout.NORTH);
         add(list, BorderLayout.CENTER);
+    }
+
+    public JList getList() {
+        return list;
     }
 }

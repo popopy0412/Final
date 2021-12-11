@@ -1,6 +1,7 @@
 import javax.swing.*;
+import java.io.Serializable;
 
-public class Book extends Item{
+public class Book extends Item implements Serializable {
     private String publisher; // 출판사
 
     public Book(String title, String producer, String summary, String review, ImageIcon poster, int point, int year, String publisher) {

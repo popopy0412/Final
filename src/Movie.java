@@ -1,7 +1,8 @@
 import java.awt.*;
+import java.io.Serializable;
 import javax.swing.*;
 
-public class Movie extends Item{
+public class Movie extends Item implements Serializable {
     private String actors; // 배우
     private String genre; // 장르
     private String rated; // 등급
