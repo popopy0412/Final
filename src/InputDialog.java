@@ -1,9 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
+import java.awt.event.*;
 
 public class InputDialog extends JDialog {
     private JPanel northPanel, centerPanel, btnPanel;
@@ -13,6 +10,7 @@ public class InputDialog extends JDialog {
     private JButton okbtn;
     private ButtonGroup bg;
     private CardLayout card; // 카드 레이아웃
+    private boolean btnClicked; // 정상 종료인지
     public InputDialog(JFrame frame, String title){
         super(frame, title, true); // 제목 설정, 모달
         setSize(400, 700);
@@ -81,10 +79,19 @@ public class InputDialog extends JDialog {
             }
         });
 
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                if(!btnClicked) Main.getFrame().renewDialog();
+            }
+        });
+
         add(northPanel, BorderLayout.NORTH);
         add(centerPanel, BorderLayout.CENTER);
     }
-
+    public void actionPerformed(ActionEvent e){
+        btnClicked = true;
+    }
     public MoviePanel getMoviePanel() {
         return moviePanel;
     }

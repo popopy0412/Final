@@ -60,9 +60,7 @@ public class TabbedPanePanel extends JPanel {
 
     public SearchTabPanel getStp() { return stp; }
 
-    public JList getTotal() {
-        return total;
-    }
+    public JList getTotal() { return total; }
 
     public JList getMovies() {
         return movies;

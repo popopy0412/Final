@@ -29,7 +29,7 @@ public class Menubar extends JMenuBar {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JFileChooser ch = new JFileChooser();
-                int ret = ch.showSaveDialog(null);
+                int ret = ch.showOpenDialog(null);
                 if(ret == JFileChooser.APPROVE_OPTION){
                     String pathName = ch.getSelectedFile().getPath();
                     try {
@@ -37,16 +37,23 @@ public class Menubar extends JMenuBar {
                         ObjectInputStream oi = new ObjectInputStream(fi);
                         ItemCollections.setVector((Vector<Item>)oi.readObject());
                         oi.close();
+                        Main.getFrame().getCenterPanel().removeAll();
+                        for(int i=0;i<4;i++){
+                            Main.getFrame().getDpanel()[i] = new DetailPanel();
+                            Main.getFrame().getCenterPanel().add(Integer.toString(i), Main.getFrame().getDpanel()[i]);
+                        }
                         Main.getFrame().getTppanel().renewTotal();
                         Main.getFrame().getTppanel().renewMovies();
                         Main.getFrame().getTppanel().renewBooks();
                     }
                     catch (FileNotFoundException ex) {
-                        ex.printStackTrace();
+                        showErrorMessage("파일을 찾을 수 없습니다.", "파일을 찾을 수 없음");
                     } catch (IOException ioException) {
-                        ioException.printStackTrace();
+                        showErrorMessage("파일을 불러오는 과정에서 오류가 발생했습니다.", "입출력 오류");
                     } catch (ClassNotFoundException classNotFoundException) {
-                        classNotFoundException.printStackTrace();
+                        showErrorMessage("데이터 오류가 발생했습니다.", "데이터 오류");
+                    } catch (Exception exp){
+                        showErrorMessage("알 수 없는 오류가 발생했습니다.", "알 수 없는 오류");
                     }
                 }
             }
@@ -55,7 +62,7 @@ public class Menubar extends JMenuBar {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JFileChooser ch = new JFileChooser();
-                int ret = ch.showOpenDialog(null);
+                int ret = ch.showSaveDialog(null);
                 if(ret == JFileChooser.APPROVE_OPTION){
                     String pathName = ch.getSelectedFile().getPath();
                     try {
@@ -64,10 +71,13 @@ public class Menubar extends JMenuBar {
                         oo.writeObject(ItemCollections.getItems());
                         oo.close();
                     }
+
                     catch (FileNotFoundException ex) {
-                        ex.printStackTrace();
+                        showErrorMessage("파일을 찾을 수 없습니다.", "파일을 찾을 수 없음");
                     } catch (IOException ioException) {
-                        ioException.printStackTrace();
+                        showErrorMessage("파일을 저장하는 과정에서 오류가 발생했습니다.", "입출력 오류");
+                    } catch (Exception exp){
+                        showErrorMessage("알 수 없는 오류가 발생했습니다.", "알 수 없는 오류");
                     }
                 }
             }
@@ -75,7 +85,8 @@ public class Menubar extends JMenuBar {
         items[0][2].addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.exit(0);
+                int ret = JOptionPane.showConfirmDialog(null, "정말 종료하시겠습니까?");
+                if(ret == JOptionPane.YES_OPTION) System.exit(0);
             }
         });
         items[1][0].addActionListener(new ActionListener() {
@@ -84,5 +95,8 @@ public class Menubar extends JMenuBar {
                 JOptionPane.showMessageDialog(null, "MyNotes 시스템 v 1.0 입니다.", "Message", JOptionPane.INFORMATION_MESSAGE);
             }
         });
+    }
+    public void showErrorMessage(String msg, String title){
+        JOptionPane.showMessageDialog(null, msg, title, JOptionPane.WARNING_MESSAGE);
     }
 }

@@ -11,6 +11,7 @@ public class DetailPanel extends JPanel{
     private TextPanel rPanel;
     private JButton mbtn;
     private JButton dbtn;
+    private GridBagConstraints grid;
     public DetailPanel() {
         GridBagConstraints grid = new GridBagConstraints();
         setLayout(new BorderLayout());
@@ -27,29 +28,90 @@ public class DetailPanel extends JPanel{
         mbtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                InputDialog i = Main.getFrame().getDialog();
+                ModifyDialog m = Main.getFrame().getMdialog();
                 int idx = Main.getFrame().getTppanel().getTp().getSelectedIndex();
                 if(idx == 0){
+                    if(Main.getFrame().getTppanel().getTotal().getSelectedValue() == null) {
+                        showErrorMessage();
+                        return;
+                    }
+
                     if(Main.getFrame().getTppanel().getTotal().getSelectedValue() instanceof Movie){
+                        Main.getFrame().getMdialog().getMbtn().setSelected(true);
+                        Main.getFrame().getMdialog().getCard().show(Main.getFrame().getMdialog().getCenterPanel(), "movie");
                         Movie movie = (Movie)Main.getFrame().getTppanel().getTotal().getSelectedValue();
-                        Main.getFrame().getDialog().getMoviePanel().setInformation(movie);
+                        Main.getFrame().getMdialog().getMoviePanel().setInformation(movie);
+                    }
+                    else{
+                        Main.getFrame().getMdialog().getBbtn().setSelected(true);
+                        Main.getFrame().getMdialog().getCard().show(Main.getFrame().getMdialog().getCenterPanel(), "book");
+                        Book book = (Book)Main.getFrame().getTppanel().getTotal().getSelectedValue();
+                        Main.getFrame().getMdialog().getBookPanel().setInformation(book);
                     }
                 }
                 else if(idx == 1){
+                    if(Main.getFrame().getTppanel().getMovies().getSelectedValue() == null) {
+                        showErrorMessage();
+                        return;
+                    }
 
+                    Main.getFrame().getMdialog().getMbtn().setSelected(true);
+                    Main.getFrame().getMdialog().getCard().show(Main.getFrame().getMdialog().getCenterPanel(), "movie");
+                    Movie movie = (Movie)Main.getFrame().getTppanel().getMovies().getSelectedValue();
+                    Main.getFrame().getMdialog().getMoviePanel().setInformation(movie);
                 }
                 else if(idx == 2){
+                    if(Main.getFrame().getTppanel().getBooks().getSelectedValue() == null) {
+                        showErrorMessage();
+                        return;
+                    }
 
+                    Main.getFrame().getMdialog().getBbtn().setSelected(true);
+                    Main.getFrame().getMdialog().getCard().show(Main.getFrame().getMdialog().getCenterPanel(), "book");
+                    Book book = (Book)Main.getFrame().getTppanel().getBooks().getSelectedValue();
+                    Main.getFrame().getMdialog().getBookPanel().setInformation(book);
                 }
                 else if(idx == 3){
+                    if(Main.getFrame().getTppanel().getStp().getList().getSelectedValue() == null){
+                        if(Main.getFrame().getTppanel().getTotal().getSelectedValue() == null) JOptionPane.showMessageDialog(null, "항목을 선택해주세요", "오류", JOptionPane.WARNING_MESSAGE);
+                        return;
+                    }
 
+                    if(Main.getFrame().getTppanel().getStp().getList().getSelectedValue() instanceof Movie){
+                        Main.getFrame().getMdialog().getMbtn().setSelected(true);
+                        Main.getFrame().getMdialog().getCard().show(Main.getFrame().getMdialog().getCenterPanel(), "movie");
+                        Movie movie = (Movie)Main.getFrame().getTppanel().getStp().getList().getSelectedValue();
+                        Main.getFrame().getMdialog().getMoviePanel().setInformation(movie);
+                    }
+                    else{
+                        Main.getFrame().getMdialog().getBbtn().setSelected(true);
+                        Main.getFrame().getMdialog().getCard().show(Main.getFrame().getMdialog().getCenterPanel(), "book");
+                        Book book = (Book)Main.getFrame().getTppanel().getStp().getList().getSelectedValue();
+                        Main.getFrame().getMdialog().getBookPanel().setInformation(book);
+                    }
                 }
-                i.setVisible(true);
+                m.setVisible(true);
             }
         });
         dbtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                int idx = Main.getFrame().getTppanel().getTp().getSelectedIndex();
+                if(idx == 0) if(Main.getFrame().getTppanel().getTotal().getSelectedValue() == null) {
+                    showErrorMessage();
+                    return;
+                }
+                if(idx == 1) if(Main.getFrame().getTppanel().getMovies().getSelectedValue() == null) {
+                    showErrorMessage();
+                    return;
+                }
+                if(idx == 2) if(Main.getFrame().getTppanel().getBooks().getSelectedValue() == null){
+                    return;
+                }
+                if(idx == 3) if(Main.getFrame().getTppanel().getStp().getList().getSelectedValue() == null){
+                    if(Main.getFrame().getTppanel().getTotal().getSelectedValue() == null) JOptionPane.showMessageDialog(null, "항목을 선택해주세요", "오류", JOptionPane.WARNING_MESSAGE);
+                    return;
+                }
                 int ret = JOptionPane.showConfirmDialog(null, "정말 삭제하시겠습니까?", "삭제", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
                 if(ret == JOptionPane.YES_OPTION) {
                     int s = Main.getFrame().getTppanel().getTp().getSelectedIndex();
@@ -61,9 +123,18 @@ public class DetailPanel extends JPanel{
                         ItemCollections.deleteItem((Item) Main.getFrame().getTppanel().getBooks().getSelectedValue());
                     if (s == 3)
                         ItemCollections.deleteItem((Item) Main.getFrame().getTppanel().getStp().getList().getSelectedValue());
+
+                    Main.getFrame().getCenterPanel().removeAll();
+                    for(int i=0;i<4;i++) {
+                        Main.getFrame().getDpanel()[i] = new DetailPanel();
+                        Main.getFrame().getCenterPanel().add(Integer.toString(i), Main.getFrame().getDpanel()[i]);
+                    }
+                    Main.getFrame().getCard().show(Main.getFrame().getCenterPanel(), Integer.toString(s));
+
                     Main.getFrame().getTppanel().renewTotal();
                     Main.getFrame().getTppanel().renewMovies();
                     Main.getFrame().getTppanel().renewBooks();
+                    Main.getFrame().getTppanel().getStp().renewList(false);
                 }
             }
         });
@@ -87,9 +158,6 @@ public class DetailPanel extends JPanel{
         add(panel, BorderLayout.CENTER);
         add(btnPanel, BorderLayout.SOUTH);
     }
-    public void setIpanel(InformationPanel ipanel){
-        this.ipanel = ipanel;
-    }
     public InformationPanel getIpanel() {
         return ipanel;
     }
@@ -100,5 +168,7 @@ public class DetailPanel extends JPanel{
         return rPanel;
     }
 
-
+    public void showErrorMessage(){
+        JOptionPane.showMessageDialog(null, "항목을 선택해주세요", "오류", JOptionPane.WARNING_MESSAGE);
+    }
 }

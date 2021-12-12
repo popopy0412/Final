@@ -7,8 +7,8 @@ public class Movie extends Item implements Serializable {
     private String genre; // 장르
     private String rated; // 등급
 
-    public Movie(String title, String producer, String summary, String review, ImageIcon poster, int point, int year, String actors, String genre, String rated) {
-        super(title, producer, summary, review, poster, point, year);
+    public Movie(String title, String producer, String summary, String review, String path, int point, int year, String actors, String genre, String rated) {
+        super(title, producer, summary, review, path, point, year);
         this.actors = actors;
         this.genre = genre;
         this.rated = rated;

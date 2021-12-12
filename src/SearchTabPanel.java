@@ -10,7 +10,7 @@ public class SearchTabPanel extends JPanel{
     private JTextField tf; // 검색창 입력란
     private JButton btn; // 검색 버튼
     private JList list;
-
+    private String text; // 검색창에 입력한 문자열
     public SearchTabPanel(){
         setLayout(new BorderLayout()); // 배치 관리자 설정
 
@@ -25,22 +25,8 @@ public class SearchTabPanel extends JPanel{
         btn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Vector<Item> v = new Vector<>();
-                String str = tf.getText();
-                try {
-                    for (Item i : ItemCollections.getItems()) {
-                        if (cb.getSelectedIndex() == 0) {
-                            if (i.getTitle().contains(str)) v.add(i);
-                        } else {
-                            if (i.getPoint() >= Integer.parseInt(str)) v.add(i);
-
-                        }
-                    }
-                    list.setListData(v);
-                }
-                catch(Exception exception){
-                    JOptionPane.showMessageDialog(null, "0 ~ 10 사이의 숫자만 입력해주세요", "입력값 오류", JOptionPane.INFORMATION_MESSAGE);
-                }
+                text = tf.getText();
+                renewList(true);
             }
         });
 
@@ -53,5 +39,32 @@ public class SearchTabPanel extends JPanel{
 
     public JList getList() {
         return list;
+    }
+    public void renewList(boolean forfind){
+        Vector<Item> v = new Vector<>();
+        String str;
+        if(forfind) str = tf.getText();
+        else str = text;
+        if(str == null) return;
+        try {
+            for (Item i : ItemCollections.getItems()) {
+                if (cb.getSelectedIndex() == 0) {
+                    if(str.equals("")) throw new IllegalArgumentException();
+                    if (i.getTitle().contains(str)) v.add(i);
+                } else {
+                    if (i.getPoint() >= Integer.parseInt(str)) v.add(i);
+                }
+            }
+            list.setListData(v);
+        }
+        catch(IllegalArgumentException ex){
+            showErrorMessage("제목을 1글자 이상 입력해주세요", "제목이 입력되지 않음");
+        }
+        catch(Exception exception){
+            showErrorMessage("0 ~ 10 사이의 숫자만 입력해주세요", "입력값 오류");
+        }
+    }
+    public void showErrorMessage(String msg, String title){
+        JOptionPane.showMessageDialog(null, msg, title, JOptionPane.INFORMATION_MESSAGE);
     }
 }

@@ -72,10 +72,21 @@ public class BookPanel extends JPanel {
         String producer = ta[1].getText(); // 제작자(감독, 저자)
         String summary = ta[3].getText(); // 줄거리, 내용
         String review = ta[4].getText(); // 감상평
-        ImageIcon poster = new ImageIcon(tf.getText()); // 이미지 아이콘
+        String path = tf.getText(); // 이미지 경로
         int point = slider.getValue(); // 별점
         int year = (int)cb.getSelectedItem(); // 제작 년도
         String publisher = ta[2].getText(); // 출판사
-        return new Book(title, producer, summary, review, poster, point, year, publisher);
+        return new Book(title, producer, summary, review, path, point, year, publisher);
+    }
+    
+    public void setInformation(Book book){
+        ta[0].setText(book.getTitle());
+        ta[1].setText(book.getProducer());
+        ta[3].setText(book.getSummary());
+        ta[4].setText(book.getReview());
+        tf.setText(book.getPath());
+        slider.setValue(book.getPoint());
+        cb.setSelectedItem(book.getYear());
+        ta[2].setText(book.getPublisher());
     }
 }

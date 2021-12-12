@@ -82,13 +82,13 @@ public class MoviePanel extends JPanel {
         String producer = ta[1].getText(); // 제작자(감독, 저자)
         String summary = ta[3].getText(); // 줄거리, 내용
         String review = ta[4].getText(); // 감상평
-        ImageIcon poster = new ImageIcon(tf.getText()); // 이미지 아이콘
+        String path = tf.getText(); // 이미지 경로
         int point = slider.getValue(); // 별점
         int year = (int)yearcb.getSelectedItem(); // 제작 년도
         String actors = ta[2].getText(); // 배우
         String genre = (String)genrecb.getSelectedItem(); // 장르
         String rated = (String)ratedcb.getSelectedItem(); // 등급
-        return new Movie(title, producer, summary, review, poster, point, year, actors, genre, rated);
+        return new Movie(title, producer, summary, review, path, point, year, actors, genre, rated);
     }
 
     public void setInformation(Movie movie){
@@ -96,6 +96,11 @@ public class MoviePanel extends JPanel {
         ta[1].setText(movie.getProducer());
         ta[3].setText(movie.getSummary());
         ta[4].setText(movie.getReview());
-        //파일 경로 Item에 따로 저장하기
+        tf.setText(movie.getPath());
+        slider.setValue(movie.getPoint());
+        yearcb.setSelectedItem(movie.getYear());
+        ta[2].setText(movie.getActors());
+        genrecb.setSelectedItem(movie.getGenre());
+        ratedcb.setSelectedItem(movie.getRated());
     }
 }

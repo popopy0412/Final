@@ -6,16 +6,16 @@ public class Item implements Serializable {
     protected String producer; // 제작자(감독, 저자)
     protected String summary; // 줄거리, 내용
     protected String review; // 감상평
-    protected ImageIcon poster; // 이미지 아이콘
+    protected String path; // 이미지 경로
     protected int point; // 별점
     protected int year; // 제작 년도
 
-    public Item(String title, String producer, String summary, String review, ImageIcon poster, int point, int year) {
+    public Item(String title, String producer, String summary, String review, String path, int point, int year) {
         this.title = title;
         this.producer = producer;
         this.summary = summary;
         this.review = review;
-        this.poster = poster;
+        this.path = path;
         this.point = point;
         this.year = year;
     }
@@ -51,13 +51,9 @@ public class Item implements Serializable {
         this.review = review;
     }
 
-    public ImageIcon getPoster() {
-        return poster;
-    }
+    public String getPath() { return path; }
 
-    public void setPoster(ImageIcon poster) {
-        this.poster = poster;
-    }
+    public void setPath(String path) { this.path = path; }
 
     public int getPoint() {
         return point;
