@@ -36,10 +36,26 @@ public class MoviePanel extends JPanel {
                 FileNameExtensionFilter filter = new FileNameExtensionFilter("JPG, JPEG, PNG", "jpg", "png", "jpeg");
                 ch.setFileFilter(filter);
 
-                int ret = ch.showOpenDialog(null);
-                if(ret == JFileChooser.APPROVE_OPTION){
-                    tf.setText(ch.getSelectedFile().getPath());
-                }
+                do {
+                    String name; // 파일 이름
+                    String pngjpg, jpeg; // 사진인지 아닌지 확인하는 문자열
+                    int len; // 파일 이름 길이
+                    int ret = ch.showOpenDialog(null);
+                    if (ret == JFileChooser.APPROVE_OPTION) {
+                        name = ch.getSelectedFile().getName();
+                        len = name.length();
+                        pngjpg = name.substring(len-3, len);
+                        jpeg = name.substring(len-4, len);
+                        if(pngjpg.equals("png") || pngjpg.equals("jpg") || jpeg.equals("jpeg")) {
+                            tf.setText(ch.getSelectedFile().getPath());
+                            break;
+                        }
+                        else{
+                            JOptionPane.showMessageDialog(null, "PNG, JPG, JPEG 파일이 아닙니다. 다시 선택해주세요", "잘못된 파일 선택", JOptionPane.WARNING_MESSAGE);
+                        }
+                    }
+                    else break;
+                }while(true);
             }
         });
 

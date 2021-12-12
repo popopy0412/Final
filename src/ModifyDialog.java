@@ -39,82 +39,51 @@ public class ModifyDialog extends JDialog {
         okbtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                setVisible(false);
-                int idx = Main.getFrame().getTppanel().getTp().getSelectedIndex();
-                if(idx == 0){
-                    if(Main.getFrame().getTppanel().getTotal().getSelectedValue() instanceof Movie){
-                        Movie movie = moviePanel.getInformation();
-                        Movie smovie = (Movie)Main.getFrame().getTppanel().getTotal().getSelectedValue();
-                        smovie.setActors(movie.getActors());
-                        smovie.setGenre(movie.getGenre());
-                        smovie.setRated(movie.getRated());
-                        smovie.setPoint(movie.getPoint());
-                        smovie.setPath(movie.getPath());
-                        smovie.setProducer(movie.getProducer());
-                        smovie.setTitle(movie.getTitle());
-                        smovie.setReview(movie.getReview());
-                        smovie.setSummary(movie.getSummary());
-                        smovie.setYear(movie.getYear());
+                do {
+                    int idx = Main.getFrame().getTppanel().getTp().getSelectedIndex();
+                    if (idx == 0) {
+                        if (Main.getFrame().getTppanel().getTotal().getSelectedValue() instanceof Movie) {
+                            mbtn.setSelected(true);
+                            Movie movie = moviePanel.getInformation();
+                            Movie smovie = (Movie) Main.getFrame().getTppanel().getTotal().getSelectedValue();
+                            if (movie.getTitle().equals("")) {
+                                JOptionPane.showMessageDialog(null, "제목은 필수 입력 항목입니다", "제목이 입력되지 않음", JOptionPane.WARNING_MESSAGE);
+                                break;
+                            }
+                            smovie.setActors(movie.getActors());
+                            smovie.setGenre(movie.getGenre());
+                            smovie.setRated(movie.getRated());
+                            smovie.setPoint(movie.getPoint());
+                            smovie.setPath(movie.getPath());
+                            smovie.setProducer(movie.getProducer());
+                            smovie.setTitle(movie.getTitle());
+                            smovie.setReview(movie.getReview());
+                            smovie.setSummary(movie.getSummary());
+                            smovie.setYear(movie.getYear());
 
-                        Main.getFrame().getTppanel().renewMovies();
+                            Main.getFrame().getTppanel().renewMovies();
+                        } else {
+                            bbtn.setSelected(true);
+                            card.show(centerPanel, "book");
+                            Book book = bookPanel.getInformation();
+                            Book sbook = (Book) Main.getFrame().getTppanel().getTotal().getSelectedValue();
+                            sbook.setPath(book.getPath());
+                            sbook.setPoint(book.getPoint());
+                            sbook.setPublisher(book.getPublisher());
+                            sbook.setProducer(book.getProducer());
+                            sbook.setReview(book.getReview());
+                            sbook.setSummary(book.getReview());
+                            sbook.setTitle(book.getTitle());
+                            sbook.setYear(book.getYear());
+
+                            Main.getFrame().getTppanel().renewBooks();
+                        }
                     }
-                    else{
-                        bbtn.setSelected(true);
-                        card.show(centerPanel, "book");
-                        Book book = bookPanel.getInformation();
-                        Book sbook = (Book)Main.getFrame().getTppanel().getTotal().getSelectedValue();
-                        sbook.setPath(book.getPath());
-                        sbook.setPoint(book.getPoint());
-                        sbook.setPublisher(book.getPublisher());
-                        sbook.setProducer(book.getProducer());
-                        sbook.setReview(book.getReview());
-                        sbook.setSummary(book.getReview());
-                        sbook.setTitle(book.getTitle());
-                        sbook.setYear(book.getYear());
-
-                        Main.getFrame().getTppanel().renewBooks();
-                    }
-                }
-                if(idx == 1){
-                    mbtn.setSelected(true);
-                    card.show(centerPanel, "movie");
-                    Movie movie = moviePanel.getInformation();
-                    Movie smovie = (Movie)Main.getFrame().getTppanel().getMovies().getSelectedValue();
-                    smovie.setActors(movie.getActors());
-                    smovie.setGenre(movie.getGenre());
-                    smovie.setRated(movie.getRated());
-                    smovie.setPoint(movie.getPoint());
-                    smovie.setPath(movie.getPath());
-                    smovie.setProducer(movie.getProducer());
-                    smovie.setTitle(movie.getTitle());
-                    smovie.setReview(movie.getReview());
-                    smovie.setSummary(movie.getSummary());
-                    smovie.setYear(movie.getYear());
-
-                    Main.getFrame().getTppanel().renewMovies();
-                }
-                else if(idx == 2){
-                    bbtn.setSelected(true);
-                    card.show(centerPanel, "book");
-                    Book book = bookPanel.getInformation();
-                    Book sbook = (Book)Main.getFrame().getTppanel().getBooks().getSelectedValue();
-                    sbook.setPath(book.getPath());
-                    sbook.setPoint(book.getPoint());
-                    sbook.setPublisher(book.getPublisher());
-                    sbook.setProducer(book.getProducer());
-                    sbook.setReview(book.getReview());
-                    sbook.setSummary(book.getReview());
-                    sbook.setTitle(book.getTitle());
-                    sbook.setYear(book.getYear());
-
-                    Main.getFrame().getTppanel().renewBooks();
-                }
-                else if(idx == 3){
-                    if(Main.getFrame().getTppanel().getStp().getList().getSelectedValue() instanceof Movie){
+                    if (idx == 1) {
                         mbtn.setSelected(true);
                         card.show(centerPanel, "movie");
                         Movie movie = moviePanel.getInformation();
-                        Movie smovie = (Movie)Main.getFrame().getTppanel().getStp().getList().getSelectedValue();
+                        Movie smovie = (Movie) Main.getFrame().getTppanel().getMovies().getSelectedValue();
                         smovie.setActors(movie.getActors());
                         smovie.setGenre(movie.getGenre());
                         smovie.setRated(movie.getRated());
@@ -126,14 +95,12 @@ public class ModifyDialog extends JDialog {
                         smovie.setSummary(movie.getSummary());
                         smovie.setYear(movie.getYear());
 
-                        Main.getFrame().getTppanel().getStp().renewList(false);
                         Main.getFrame().getTppanel().renewMovies();
-                    }
-                    else{
+                    } else if (idx == 2) {
                         bbtn.setSelected(true);
                         card.show(centerPanel, "book");
                         Book book = bookPanel.getInformation();
-                        Book sbook = (Book)Main.getFrame().getTppanel().getStp().getList().getSelectedValue();
+                        Book sbook = (Book) Main.getFrame().getTppanel().getBooks().getSelectedValue();
                         sbook.setPath(book.getPath());
                         sbook.setPoint(book.getPoint());
                         sbook.setPublisher(book.getPublisher());
@@ -143,20 +110,58 @@ public class ModifyDialog extends JDialog {
                         sbook.setTitle(book.getTitle());
                         sbook.setYear(book.getYear());
 
-                        Main.getFrame().getTppanel().getStp().renewList(false);
                         Main.getFrame().getTppanel().renewBooks();
-                    }
-                }
-                Main.getFrame().getCenterPanel().removeAll();
-                for(int i=0;i<4;i++) {
-                    Main.getFrame().getDpanel()[i] = new DetailPanel();
-                    Main.getFrame().getCenterPanel().add(Integer.toString(i), Main.getFrame().getDpanel()[i]);
-                }
-                Main.getFrame().getCard().show(Main.getFrame().getCenterPanel(), Integer.toString(idx));
+                    } else if (idx == 3) {
+                        if (Main.getFrame().getTppanel().getStp().getList().getSelectedValue() instanceof Movie) {
+                            mbtn.setSelected(true);
+                            card.show(centerPanel, "movie");
+                            Movie movie = moviePanel.getInformation();
+                            Movie smovie = (Movie) Main.getFrame().getTppanel().getStp().getList().getSelectedValue();
+                            smovie.setActors(movie.getActors());
+                            smovie.setGenre(movie.getGenre());
+                            smovie.setRated(movie.getRated());
+                            smovie.setPoint(movie.getPoint());
+                            smovie.setPath(movie.getPath());
+                            smovie.setProducer(movie.getProducer());
+                            smovie.setTitle(movie.getTitle());
+                            smovie.setReview(movie.getReview());
+                            smovie.setSummary(movie.getSummary());
+                            smovie.setYear(movie.getYear());
 
-                Main.getFrame().getTppanel().renewTotal();
-                Main.getFrame().getTppanel().revalidate();
-                Main.getFrame().renewMdialog();
+                            Main.getFrame().getTppanel().getStp().renewList(false);
+                            Main.getFrame().getTppanel().renewMovies();
+                        } else {
+                            bbtn.setSelected(true);
+                            card.show(centerPanel, "book");
+                            Book book = bookPanel.getInformation();
+                            Book sbook = (Book) Main.getFrame().getTppanel().getStp().getList().getSelectedValue();
+                            sbook.setPath(book.getPath());
+                            sbook.setPoint(book.getPoint());
+                            sbook.setPublisher(book.getPublisher());
+                            sbook.setProducer(book.getProducer());
+                            sbook.setReview(book.getReview());
+                            sbook.setSummary(book.getReview());
+                            sbook.setTitle(book.getTitle());
+                            sbook.setYear(book.getYear());
+
+                            Main.getFrame().getTppanel().getStp().renewList(false);
+                            Main.getFrame().getTppanel().renewBooks();
+                        }
+                    }
+                    Main.getFrame().getCenterPanel().removeAll();
+                    for (int i = 0; i < 4; i++) {
+                        Main.getFrame().getDpanel()[i] = new DetailPanel();
+                        Main.getFrame().getCenterPanel().add(Integer.toString(i), Main.getFrame().getDpanel()[i]);
+                    }
+                    Main.getFrame().getCard().show(Main.getFrame().getCenterPanel(), Integer.toString(idx));
+
+                    Main.getFrame().getTppanel().renewTotal();
+                    Main.getFrame().getTppanel().revalidate();
+                    Main.getFrame().renewMdialog();
+
+                    setVisible(false);
+                    break;
+                }while(true);
             }
         });
 
