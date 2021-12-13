@@ -2,15 +2,15 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class ModifyDialog extends JDialog {
-    private JPanel northPanel, centerPanel, btnPanel;
-    private MoviePanel moviePanel;
-    private BookPanel bookPanel;
+public class ModifyDialog extends JDialog { // 수정 다이얼로그
+    private JPanel northPanel, centerPanel, btnPanel; // 영화, 책 선택 버튼이 들어갈 패널, 정보 입력란이 들어갈 패널, 하단 OK버튼이 들어갈 패널
+    private MoviePanel moviePanel; // 영화 입력창
+    private BookPanel bookPanel; // 책 입력창
     private JRadioButton mbtn, bbtn; // Book, Movie 버튼
-    private JButton okbtn;
-    private ButtonGroup bg;
-    private CardLayout card; // 카드 레이아웃
-    private boolean btnClicked = false; // 정상 종료인지
+    private JButton okbtn; // 하단 OK 버튼
+    private ButtonGroup bg; // 영화, 책 버튼이 들어갈 버튼그룹
+    private CardLayout card; // 영화, 책 입력창을 나타내줄 카드 레이아웃
+    private boolean btnClicked; // 정상 종료인지(X 버튼이 아닌 OK 버튼을 눌러서 종료했는지 아닌지)
     public ModifyDialog(JFrame frame, String title){
         super(frame, title, true); // 제목 설정, 모달
         setSize(400, 700);
@@ -50,16 +50,7 @@ public class ModifyDialog extends JDialog {
                                 JOptionPane.showMessageDialog(null, "제목은 필수 입력 항목입니다", "제목이 입력되지 않음", JOptionPane.WARNING_MESSAGE);
                                 break;
                             }
-                            smovie.setActors(movie.getActors());
-                            smovie.setGenre(movie.getGenre());
-                            smovie.setRated(movie.getRated());
-                            smovie.setPoint(movie.getPoint());
-                            smovie.setPath(movie.getPath());
-                            smovie.setProducer(movie.getProducer());
-                            smovie.setTitle(movie.getTitle());
-                            smovie.setReview(movie.getReview());
-                            smovie.setSummary(movie.getSummary());
-                            smovie.setYear(movie.getYear());
+                            setMovie(smovie, movie);
 
                             Main.getFrame().getTppanel().renewMovies();
                         } else {
@@ -67,14 +58,7 @@ public class ModifyDialog extends JDialog {
                             card.show(centerPanel, "book");
                             Book book = bookPanel.getInformation();
                             Book sbook = (Book) Main.getFrame().getTppanel().getTotal().getSelectedValue();
-                            sbook.setPath(book.getPath());
-                            sbook.setPoint(book.getPoint());
-                            sbook.setPublisher(book.getPublisher());
-                            sbook.setProducer(book.getProducer());
-                            sbook.setReview(book.getReview());
-                            sbook.setSummary(book.getReview());
-                            sbook.setTitle(book.getTitle());
-                            sbook.setYear(book.getYear());
+                            setBook(sbook, book);
 
                             Main.getFrame().getTppanel().renewBooks();
                         }
@@ -84,16 +68,7 @@ public class ModifyDialog extends JDialog {
                         card.show(centerPanel, "movie");
                         Movie movie = moviePanel.getInformation();
                         Movie smovie = (Movie) Main.getFrame().getTppanel().getMovies().getSelectedValue();
-                        smovie.setActors(movie.getActors());
-                        smovie.setGenre(movie.getGenre());
-                        smovie.setRated(movie.getRated());
-                        smovie.setPoint(movie.getPoint());
-                        smovie.setPath(movie.getPath());
-                        smovie.setProducer(movie.getProducer());
-                        smovie.setTitle(movie.getTitle());
-                        smovie.setReview(movie.getReview());
-                        smovie.setSummary(movie.getSummary());
-                        smovie.setYear(movie.getYear());
+                        setMovie(smovie, movie);
 
                         Main.getFrame().getTppanel().renewMovies();
                     } else if (idx == 2) {
@@ -101,14 +76,7 @@ public class ModifyDialog extends JDialog {
                         card.show(centerPanel, "book");
                         Book book = bookPanel.getInformation();
                         Book sbook = (Book) Main.getFrame().getTppanel().getBooks().getSelectedValue();
-                        sbook.setPath(book.getPath());
-                        sbook.setPoint(book.getPoint());
-                        sbook.setPublisher(book.getPublisher());
-                        sbook.setProducer(book.getProducer());
-                        sbook.setReview(book.getReview());
-                        sbook.setSummary(book.getReview());
-                        sbook.setTitle(book.getTitle());
-                        sbook.setYear(book.getYear());
+                        setBook(sbook, book);
 
                         Main.getFrame().getTppanel().renewBooks();
                     } else if (idx == 3) {
@@ -117,16 +85,7 @@ public class ModifyDialog extends JDialog {
                             card.show(centerPanel, "movie");
                             Movie movie = moviePanel.getInformation();
                             Movie smovie = (Movie) Main.getFrame().getTppanel().getStp().getList().getSelectedValue();
-                            smovie.setActors(movie.getActors());
-                            smovie.setGenre(movie.getGenre());
-                            smovie.setRated(movie.getRated());
-                            smovie.setPoint(movie.getPoint());
-                            smovie.setPath(movie.getPath());
-                            smovie.setProducer(movie.getProducer());
-                            smovie.setTitle(movie.getTitle());
-                            smovie.setReview(movie.getReview());
-                            smovie.setSummary(movie.getSummary());
-                            smovie.setYear(movie.getYear());
+                            setMovie(smovie, movie);
 
                             Main.getFrame().getTppanel().getStp().renewList(false);
                             Main.getFrame().getTppanel().renewMovies();
@@ -135,14 +94,7 @@ public class ModifyDialog extends JDialog {
                             card.show(centerPanel, "book");
                             Book book = bookPanel.getInformation();
                             Book sbook = (Book) Main.getFrame().getTppanel().getStp().getList().getSelectedValue();
-                            sbook.setPath(book.getPath());
-                            sbook.setPoint(book.getPoint());
-                            sbook.setPublisher(book.getPublisher());
-                            sbook.setProducer(book.getProducer());
-                            sbook.setReview(book.getReview());
-                            sbook.setSummary(book.getReview());
-                            sbook.setTitle(book.getTitle());
-                            sbook.setYear(book.getYear());
+                            setBook(sbook, book);
 
                             Main.getFrame().getTppanel().getStp().renewList(false);
                             Main.getFrame().getTppanel().renewBooks();
@@ -198,6 +150,28 @@ public class ModifyDialog extends JDialog {
         add(centerPanel, BorderLayout.CENTER);
     }
 
+    public void setMovie(Movie smovie, Movie movie){
+        smovie.setActors(movie.getActors());
+        smovie.setGenre(movie.getGenre());
+        smovie.setRated(movie.getRated());
+        smovie.setPoint(movie.getPoint());
+        smovie.setPath(movie.getPath());
+        smovie.setProducer(movie.getProducer());
+        smovie.setTitle(movie.getTitle());
+        smovie.setReview(movie.getReview());
+        smovie.setSummary(movie.getSummary());
+        smovie.setYear(movie.getYear());
+    }
+    public void setBook(Book sbook, Book book){
+        sbook.setPath(book.getPath());
+        sbook.setPoint(book.getPoint());
+        sbook.setPublisher(book.getPublisher());
+        sbook.setProducer(book.getProducer());
+        sbook.setReview(book.getReview());
+        sbook.setSummary(book.getReview());
+        sbook.setTitle(book.getTitle());
+        sbook.setYear(book.getYear());
+    }
     public void actionPerformed(ActionEvent e){
         btnClicked = true;
     }

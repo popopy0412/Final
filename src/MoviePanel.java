@@ -1,21 +1,18 @@
 import javax.swing.*;
-import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-public class MoviePanel extends JPanel {
-    private JPanel panel, imagePanel, westPanel, centerPanel;
-    private JLabel[] labels;
-    private JTextArea[] ta;
-    private JComboBox genrecb, ratedcb, yearcb;
-    private JTextField tf;
-    private JButton btn;
-    private JSlider slider;
-    private String[] str = {"제목", "감독", "배우", "장르", "등급", "개봉년도", "포스터", "별점", "줄거리", "감상평"};
-    private String[] genre = {"액션/스릴러", "공포", "코미디", "드라마", "SF", "판타지", "애니메이션", "음악/뮤지컬", "멜로", "스포츠", "범죄/느와르"};
-    private String[] rated = {"전체", "12세 이상", "15세 이상", "청소년 관람 불가"};
-    public MoviePanel(){
+public class MoviePanel extends JPanel { // 입력, 수정 다이얼로그에 들어갈 영화 정보 입력 패널
+    private JPanel panel, imagePanel, westPanel, centerPanel; // 라벨과 입력창들이 들어갈 패널, 사진입력창만 따로 들어갈 패널, 라벨이 들어갈 패널, 입력창이 들어갈 패널
+    private JLabel[] labels; // 제목, 배우 등등 라벨
+    private JTextArea[] ta; // 제목, 배우 등등 정보를 입력받음
+    private JComboBox genrecb, ratedcb, yearcb; // 장르, 등급, 제작년도
+    private JTextField tf; // 사진 경로
+    private JButton btn; // 사진 불러오기 버튼
+    private JSlider slider; // 별점
+    private String[] str = {"제목", "감독", "배우", "장르", "등급", "개봉년도", "포스터", "별점", "줄거리", "감상평"}; // 라벨 문자열들
+    private String[] genre = {"액션/스릴러", "공포", "코미디", "드라마", "SF", "판타지", "애니메이션", "음악/뮤지컬", "멜로", "스포츠", "범죄/느와르"}; // 장르 콤보박스에 들어갈 것들
+    private String[] rated = {"전체", "12세 이상", "15세 이상", "청소년 관람 불가"}; // 등급 콤보박스에 들어갈 것들
+    public MoviePanel(){ // 각 컴포넌트들을 생성하여 패널에 붙임
         super(new BorderLayout());
         setBorder(BorderFactory.createTitledBorder("영화 정보"));
 
@@ -29,35 +26,7 @@ public class MoviePanel extends JPanel {
         btn = new JButton("불러오기");
         imagePanel.add(tf, BorderLayout.CENTER); imagePanel.add(btn, BorderLayout.EAST);
 
-        btn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                JFileChooser ch = new JFileChooser();
-                FileNameExtensionFilter filter = new FileNameExtensionFilter("JPG, JPEG, PNG", "jpg", "png", "jpeg");
-                ch.setFileFilter(filter);
-
-                do {
-                    String name; // 파일 이름
-                    String pngjpg, jpeg; // 사진인지 아닌지 확인하는 문자열
-                    int len; // 파일 이름 길이
-                    int ret = ch.showOpenDialog(null);
-                    if (ret == JFileChooser.APPROVE_OPTION) {
-                        name = ch.getSelectedFile().getName();
-                        len = name.length();
-                        pngjpg = name.substring(len-3, len);
-                        jpeg = name.substring(len-4, len);
-                        if(pngjpg.equals("png") || pngjpg.equals("jpg") || jpeg.equals("jpeg")) {
-                            tf.setText(ch.getSelectedFile().getPath());
-                            break;
-                        }
-                        else{
-                            JOptionPane.showMessageDialog(null, "PNG, JPG, JPEG 파일이 아닙니다. 다시 선택해주세요", "잘못된 파일 선택", JOptionPane.WARNING_MESSAGE);
-                        }
-                    }
-                    else break;
-                }while(true);
-            }
-        });
+        btn.addActionListener(new LoadbtnListener(tf));
 
         labels = new JLabel[10];
         ta = new JTextArea[5];
@@ -93,7 +62,7 @@ public class MoviePanel extends JPanel {
         add(panel, BorderLayout.CENTER);
     }
 
-    public Movie getInformation(){
+    public Movie getInformation(){ // 입력된 영화 정보를 받음
         String title = ta[0].getText(); // 제목
         String producer = ta[1].getText(); // 제작자(감독, 저자)
         String summary = ta[3].getText(); // 줄거리, 내용
@@ -107,7 +76,7 @@ public class MoviePanel extends JPanel {
         return new Movie(title, producer, summary, review, path, point, year, actors, genre, rated);
     }
 
-    public void setInformation(Movie movie){
+    public void setInformation(Movie movie){ // 입력창에 수정할 영화 정보를 입력함
         ta[0].setText(movie.getTitle());
         ta[1].setText(movie.getProducer());
         ta[3].setText(movie.getSummary());
