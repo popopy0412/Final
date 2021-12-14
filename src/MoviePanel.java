@@ -59,7 +59,7 @@ public class MoviePanel extends JPanel { // 입력, 수정 다이얼로그에 �
         for(int i=3;i<5;i++) centerPanel.add(new JScrollPane(ta[i]));
 
         panel.add(westPanel, BorderLayout.WEST); panel.add(centerPanel, BorderLayout.CENTER);
-        add(panel, BorderLayout.CENTER);
+        add(panel, BorderLayout.CENTER); // 각 컴포넌트들 위치 설정 후 위치 설정
     }
 
     public Movie getInformation(){ // 입력된 영화 정보를 받음

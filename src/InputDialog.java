@@ -42,20 +42,32 @@ public class InputDialog extends JDialog { // 입력 다이얼로그
         okbtn.addActionListener(new ActionListener() { // OK 버튼을 눌렀을 떄
             @Override
             public void actionPerformed(ActionEvent e) {
-                setVisible(false); // 다이얼로그를 안보이게 설정
+                do { // 영화 제목이나 책 제목이 입력되었을 때까지 반복
+                    if (mbtn.isSelected()) { // 영화 정보였을 때
+                        Movie movie = moviePanel.getInformation();
+                        if (movie.getTitle().equals("")) { // 영화 제목이 입력되지 않았을 때
+                            JOptionPane.showMessageDialog(null, "제목은 필수 입력 항목입니다", "제목이 입력되지 않음", JOptionPane.WARNING_MESSAGE);
+                            break;
+                            // 다시 입력하게 함
+                        }
+                        ItemCollections.addItem(movie);
+                        Main.getFrame().getTppanel().renewMovies(); // 영화 정보를 받아서 ItemCollections에 넣고 영화 리스트 갱신
+                    } else { // 책 정보였을 때
+                        Book book = bookPanel.getInformation();
+                        if (book.getTitle().equals("")) { // 책 제목이 입력되지 않았을 때
+                            JOptionPane.showMessageDialog(null, "제목은 필수 입력 항목입니다", "제목이 입력되지 않음", JOptionPane.WARNING_MESSAGE);
+                            break;
+                            // 다시 입력하게 함
+                        }
+                        ItemCollections.addItem(book);
+                        Main.getFrame().getTppanel().renewBooks(); // 책 정보를 받아서 ItemCollections에 넣고 책 리스트 갱신
+                    }
 
-                if(mbtn.isSelected()){ // 영화 정보였을 때
-                    Movie movie = moviePanel.getInformation();
-                    ItemCollections.addItem(movie);
-                    Main.getFrame().getTppanel().renewMovies(); // 영화 정보를 받아서 ItemCollections에 넣고 영화 리스트 갱신
-                }
-                else{ // 책 정보였을 때
-                    Book book = bookPanel.getInformation();
-                    ItemCollections.addItem(book);
-                    Main.getFrame().getTppanel().renewBooks(); // 책 정보를 받아서 ItemCollections에 넣고 책 리스트 갱신
-                }
-                Main.getFrame().getTppanel().renewTotal(); // 전체 리스트 갱신
-                Main.getFrame().renewDialog(); // 다이얼로그 초기화
+                    Main.getFrame().getTppanel().renewTotal(); // 전체 리스트 갱신
+                    Main.getFrame().renewDialog(); // 다이얼로그 초기화
+                    setVisible(false); // 다이얼로그를 안보이게 설정
+                    break; // 정상 종료
+                }while(true);
             }
         });
 

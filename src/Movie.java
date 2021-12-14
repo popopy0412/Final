@@ -1,13 +1,11 @@
-import java.awt.*;
 import java.io.Serializable;
-import javax.swing.*;
 
-public class Movie extends Item implements Serializable {
+public class Movie extends Item implements Serializable { // Item을 상속받는 Movie
     private String actors; // 배우
     private String genre; // 장르
     private String rated; // 등급
 
-    public Movie(String title, String producer, String summary, String review, String path, int point, int year, String actors, String genre, String rated) {
+    public Movie(String title, String producer, String summary, String review, String path, int point, int year, String actors, String genre, String rated) { // 생성자
         super(title, producer, summary, review, path, point, year);
         this.actors = actors;
         this.genre = genre;
