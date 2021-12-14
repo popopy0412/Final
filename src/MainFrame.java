@@ -24,6 +24,7 @@ public class MainFrame extends JFrame{ // 메인 프레임
         super(title); // 제목 설정
         card = new CardLayout();
         setSize(1100, 700); // 크기 설정
+        setResizable(false); // 프레임 사이즈 변경 불가
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // 종료 조건 설정
 
         Container c = getContentPane(); // ContentPane 가져옴
