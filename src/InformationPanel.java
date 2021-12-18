@@ -55,7 +55,6 @@ public class InformationPanel extends JPanel{ // 각 영화, 책에 대한 정�
             super.paintComponent(g);
             int x = getWidth();
             int y = getHeight();
-            System.out.printf("%d %d\n", x, y);
             if(poster == null) { // 이미지가 없으면 이미지가 없다고 그림
                 g.setColor(Color.BLACK);
                 g.drawLine(0, 0, x, y);

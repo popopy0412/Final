@@ -58,6 +58,7 @@ public class SearchTabPanel extends JPanel{ // TabbedPane의 검색 탭에 들�
                 }
             }
             list.setListData(v);
+            if(forfind && v.size() == 0) showErrorMessage("["+str+"] 검색 결과가 없습니다.", "검색 결과가 없음"); // 검색했을 때 검색된 게 없으면 메시지 출력
         }
         catch(IllegalArgumentException ex){ // 제목이 주어지지 않았을 때
             showErrorMessage("제목을 1글자 이상 입력해주세요", "제목이 입력되지 않음");
